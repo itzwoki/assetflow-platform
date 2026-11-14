@@ -1,4 +1,4 @@
-# LeaseFlow — Product Requirements Document (PRD)
+# AssetFlow — Product Requirements Document (PRD)
 
 **Document Version:** 1.1
 **Status:** Approved scope baseline
@@ -13,13 +13,13 @@
 
 ## 1.1 Purpose
 
-LeaseFlow is a dealership-side finance management platform that allows vehicle dealerships to manage the finance preparation lifecycle for their customers.
+AssetFlow is a dealership-side finance management platform that allows vehicle dealerships to manage the finance preparation lifecycle for their customers.
 
 It centralizes customer and vehicle information, finance product configuration, finance calculations, quotations, proposals, and supporting documents.
 
 The platform prepares a finance application package that the dealership can submit to an external lender through that lender's own portal or submission channel.
 
-LeaseFlow does not replace the lender's systems and does not manage lender-side activities.
+AssetFlow does not replace the lender's systems and does not manage lender-side activities.
 
 ## 1.2 Problem Statement
 
@@ -27,7 +27,7 @@ Vehicle dealerships need to coordinate customer information, vehicle details, fi
 
 This information may be spread across spreadsheets, documents, internal systems, and lender portals.
 
-LeaseFlow aims to provide one structured dealership-side application for managing this preparation process.
+AssetFlow aims to provide one structured dealership-side application for managing this preparation process.
 
 ## 1.3 Product Goal
 
@@ -35,11 +35,11 @@ Provide a reliable and extensible platform that allows a vehicle dealership to m
 
 ## 1.4 Product Boundary
 
-The LeaseFlow workflow ends at the dealership's submission of the prepared application package to the external lender.
+The AssetFlow workflow ends at the dealership's submission of the prepared application package to the external lender.
 
 The lender independently performs any checks, underwriting, credit decisions, approval/rejection, agreement issuance, and servicing.
 
-LeaseFlow will not recreate or control those lender operations.
+AssetFlow will not recreate or control those lender operations.
 
 ---
 
@@ -88,7 +88,7 @@ The architecture must support future product and asset-category expansion withou
 The following are explicitly excluded:
 
 - Equipment dealerships in Release 1.
-- Lender organizations as LeaseFlow tenants.
+- Lender organizations as AssetFlow tenants.
 - Lender user accounts and lender portals.
 - Credit checks and credit scoring.
 - Underwriting.
@@ -110,7 +110,7 @@ All Release 1 users belong to vehicle dealership organizations.
 
 ## 3.1 Organization Owner
 
-- Owns or controls the dealership's LeaseFlow organization.
+- Owns or controls the dealership's AssetFlow organization.
 - Manages organization-level access.
 - Can access organization settings.
 - Can assign administrative responsibilities.
@@ -172,7 +172,7 @@ Roles should be permission-based. The application should not rely solely on hard
 
 ### Purpose
 
-Provide secure access to LeaseFlow and isolate dealership organizations.
+Provide secure access to AssetFlow and isolate dealership organizations.
 
 ### Requirements
 
@@ -217,7 +217,7 @@ MFA and API keys may be included as later security enhancements unless required 
 
 ### Purpose
 
-Allow each dealership to configure and manage its own LeaseFlow environment.
+Allow each dealership to configure and manage its own AssetFlow environment.
 
 ### Requirements
 
@@ -353,7 +353,7 @@ This does not require building an unrestricted generic asset-management product 
 
 Maintain reference information about lenders with which a dealership works.
 
-Lenders are external counterparties, not LeaseFlow tenant organizations.
+Lenders are external counterparties, not AssetFlow tenant organizations.
 
 ### Requirements
 
@@ -392,7 +392,7 @@ The exact data structure will be defined in the domain model.
 
 ### Explicit boundary
 
-LeaseFlow does not create lender accounts, manage lender employees, or process lender decisions.
+AssetFlow does not create lender accounts, manage lender employees, or process lender decisions.
 
 ---
 
@@ -593,7 +593,7 @@ The exact status model and transitions will be finalized in `02_BUSINESS_WORKFLO
 
 ### Submission boundary
 
-When the dealership submits the package through an external lender portal or channel, LeaseFlow may record basic submission information, such as:
+When the dealership submits the package through an external lender portal or channel, AssetFlow may record basic submission information, such as:
 
 - Selected lender.
 - Submission date and time.
@@ -663,9 +663,9 @@ Potential categories include:
 
 A dealership's templates belong to that dealership.
 
-When generating a quotation or proposal, LeaseFlow must use the appropriate template assigned by that dealership.
+When generating a quotation or proposal, AssetFlow must use the appropriate template assigned by that dealership.
 
-LeaseFlow must not access or retrieve a lender's private document templates.
+AssetFlow must not access or retrieve a lender's private document templates.
 
 ### Storage
 
@@ -804,10 +804,10 @@ These are high-level workflows. Detailed states, validations, exceptions, and tr
 
 1. Dealership user downloads or accesses the prepared application package.
 2. User submits the application through the lender's external portal or channel.
-3. User records the submission in LeaseFlow.
-4. LeaseFlow records the relevant submission details and package version.
+3. User records the submission in AssetFlow.
+4. AssetFlow records the relevant submission details and package version.
 
-**The workflow ends here.** Lender-side processing is outside LeaseFlow's initial scope.
+**The workflow ends here.** Lender-side processing is outside AssetFlow's initial scope.
 
 ---
 
@@ -941,7 +941,7 @@ The platform should provide:
 - One React/TypeScript frontend.
 - Python/FastAPI backend services.
 - Four independently owned PostgreSQL databases.
-- Seven repositories.
+- Six repositories.
 - Docker Compose for local orchestration.
 - API-based communication between services.
 
@@ -1242,4 +1242,4 @@ Future changes must identify:
 4. Whether the change affects existing data or architecture.
 5. Whether the change is approved for the current release or deferred.
 
-**Release 1 product boundary: A vehicle dealership prepares an HP finance proposal and its supporting documents, then submits the package to an external lender. LeaseFlow does not manage what happens inside the lender's business.**
+**Release 1 product boundary: A vehicle dealership prepares an HP finance proposal and its supporting documents, then submits the package to an external lender. AssetFlow does not manage what happens inside the lender's business.**

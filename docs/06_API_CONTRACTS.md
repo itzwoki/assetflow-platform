@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-This document defines the API standards, conventions, endpoints, request/response structures, and communication rules for LeaseFlow.
+This document defines the API standards, conventions, endpoints, request/response structures, and communication rules for AssetFlow.
 
 It establishes a consistent API interface across all backend services.
 
@@ -26,7 +26,7 @@ Related documents:
 
 ## 2. API Architecture
 
-LeaseFlow exposes APIs through four backend services:
+AssetFlow exposes APIs through four backend services:
 
 | Service | Base Path | Responsibility |
 |---|---|---|

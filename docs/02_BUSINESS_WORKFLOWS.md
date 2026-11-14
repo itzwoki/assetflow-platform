@@ -1,4 +1,4 @@
-# LeaseFlow — Business Workflows
+# AssetFlow — Business Workflows
 
 **Document Version:** 1.0  
 **Status:** Draft for workflow baseline  
@@ -11,9 +11,9 @@
 
 # 1. Purpose
 
-This document defines the business workflows for LeaseFlow Release 1.
+This document defines the business workflows for AssetFlow Release 1.
 
-It describes how a vehicle dealership uses LeaseFlow to manage customers, vehicles, Hire Purchase calculations, quotations, finance proposals, documents, and external lender submissions.
+It describes how a vehicle dealership uses AssetFlow to manage customers, vehicles, Hire Purchase calculations, quotations, finance proposals, documents, and external lender submissions.
 
 It establishes:
 
@@ -30,7 +30,7 @@ Detailed database structures, API endpoints, and frontend screens will be define
 
 # 2. Core Business Workflow
 
-The primary LeaseFlow workflow is:
+The primary AssetFlow workflow is:
 
 1. Dealership setup.
 2. Customer creation or selection.
@@ -43,7 +43,7 @@ The primary LeaseFlow workflow is:
 9. Proposal validation and finalization.
 10. Application package generation.
 11. Manual submission through the external lender's channel.
-12. Recording the submission in LeaseFlow.
+12. Recording the submission in AssetFlow.
 
 <escape>
 Customer
@@ -76,12 +76,12 @@ Application Package
 External Lender Submission
    |
    v
-Submission Record in LeaseFlow
+Submission Record in AssetFlow
 </escape>
 
-**End boundary:** LeaseFlow finishes its workflow when the dealership has submitted the prepared application package externally and recorded that submission.
+**End boundary:** AssetFlow finishes its workflow when the dealership has submitted the prepared application package externally and recorded that submission.
 
-LeaseFlow does not process the lender's application after submission.
+AssetFlow does not process the lender's application after submission.
 
 ---
 
@@ -89,7 +89,7 @@ LeaseFlow does not process the lender's application after submission.
 
 ## 3.1 Objective
 
-Establish a dealership organization and configure the minimum information required to use LeaseFlow.
+Establish a dealership organization and configure the minimum information required to use AssetFlow.
 
 ## 3.2 Actors
 
@@ -319,7 +319,7 @@ The exact inventory rules and whether additional statuses are required will be d
 
 Allow a dealership to maintain its external lender references and define which lenders it works with.
 
-Lenders are external counterparties. They do not log into LeaseFlow in Release 1.
+Lenders are external counterparties. They do not log into AssetFlow in Release 1.
 
 ## 6.2 Actors
 
@@ -366,7 +366,7 @@ The same lender can be associated with multiple dealerships, but each dealership
 - Only active lender relationships can be selected for new proposals.
 - A lender relationship must support the selected finance product.
 - Existing proposals must retain their selected lender reference even if the relationship later becomes inactive.
-- A lender's external portal URL is informational and does not mean LeaseFlow integrates with that portal.
+- A lender's external portal URL is informational and does not mean AssetFlow integrates with that portal.
 - No lender-side user or decision workflow is created.
 
 ---
@@ -573,7 +573,7 @@ The proposal may include:
 
 The precise information required must be defined by the relevant dealership workflow and selected lender's publicly provided or dealership-supplied application requirements.
 
-LeaseFlow must not invent lender requirements.
+AssetFlow must not invent lender requirements.
 
 ## 9.5 Proposal Data Snapshot
 
@@ -787,7 +787,7 @@ The package must not include unrelated documents or information from another dea
 
 ## 12.1 Objective
 
-Allow the dealership to submit its prepared application package through an external lender portal or submission channel and record that action in LeaseFlow.
+Allow the dealership to submit its prepared application package through an external lender portal or submission channel and record that action in AssetFlow.
 
 This is the final workflow boundary of the initial product.
 
@@ -804,13 +804,13 @@ This is the final workflow boundary of the initial product.
 3. User downloads or accesses the prepared application package.
 4. User opens the lender's external submission channel.
 5. User submits the application through the lender's own system or process.
-6. User returns to LeaseFlow.
+6. User returns to AssetFlow.
 7. User records that the proposal was submitted externally.
 8. User enters the submission date/time and external reference number if available.
 9. System records the submitting dealership user.
 10. System links the submission record to the exact proposal and package version.
 
-LeaseFlow does not perform the external submission in Release 1.
+AssetFlow does not perform the external submission in Release 1.
 
 ## 12.4 Submission Record
 
@@ -853,7 +853,7 @@ A draft or ready proposal is not considered submitted merely because its package
 
 After the dealership records the external submission:
 
-- LeaseFlow retains the proposal and submitted package history.
+- AssetFlow retains the proposal and submitted package history.
 - Authorized users can view the submission record.
 - The dealership can retain any lender-provided reference information.
 - The lender independently manages the application.
@@ -995,7 +995,7 @@ Initial reports may include:
 - Activity by user.
 - Finance product usage.
 
-Reports must not display lender-side decisions because LeaseFlow does not manage those decisions.
+Reports must not display lender-side decisions because AssetFlow does not manage those decisions.
 
 ## 15.3 Audit Events
 
@@ -1021,7 +1021,7 @@ Audit events must identify the acting user, organization, affected record, actio
 
 # 16. Global Business Rules
 
-The following rules apply across LeaseFlow Release 1.
+The following rules apply across AssetFlow Release 1.
 
 ## 16.1 Organization Isolation
 
@@ -1056,7 +1056,7 @@ The following rules apply across LeaseFlow Release 1.
 
 ## 16.5 External Lender Boundary
 
-LeaseFlow may:
+AssetFlow may:
 
 - Store lender reference information.
 - Maintain dealership-lender relationships.
@@ -1066,7 +1066,7 @@ LeaseFlow may:
 - Record that the dealership submitted a package externally.
 - Store an external reference number supplied by the dealership.
 
-LeaseFlow will not:
+AssetFlow will not:
 
 - Log in to lender systems.
 - Submit applications automatically in Release 1.
@@ -1158,11 +1158,11 @@ The Release 1 workflow is complete when a dealership user can:
 10. Validate and finalize the proposal.
 11. Generate and access the complete application package.
 12. Submit that package through the lender's external channel.
-13. Record the external submission in LeaseFlow.
+13. Record the external submission in AssetFlow.
 14. Retrieve the historical proposal, package, and submission record.
 
 All of this must work locally, with appropriate authorization, tenant isolation, audit history, and automated tests.
 
 ---
 
-**Release 1 workflow boundary:** LeaseFlow takes a dealership from customer and vehicle information to a finalized Hire Purchase application package and a dealership-recorded external submission. The lender's process begins outside LeaseFlow.
+**Release 1 workflow boundary:** AssetFlow takes a dealership from customer and vehicle information to a finalized Hire Purchase application package and a dealership-recorded external submission. The lender's process begins outside AssetFlow.

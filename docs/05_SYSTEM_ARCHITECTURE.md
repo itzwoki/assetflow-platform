@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-This document defines the technical architecture of LeaseFlow, including:
+This document defines the technical architecture of AssetFlow, including:
 
 - System components and their responsibilities.
 - Repository and service boundaries.
@@ -28,7 +28,7 @@ If an implementation decision conflicts with an approved business or database re
 
 ## 2. Architecture Overview
 
-LeaseFlow follows a **service-oriented architecture with independently owned databases**.
+AssetFlow follows a **service-oriented architecture with independently owned databases**.
 
 The platform consists of:
 
@@ -50,7 +50,7 @@ flowchart TB
     User[Dealership User]
 
     subgraph Frontend
-        Web[LeaseFlow Web Application<br/>React + TypeScript]
+        Web[AssetFlow Web Application<br/>React + TypeScript]
     end
 
     subgraph Platform
@@ -116,16 +116,16 @@ The diagram represents logical ownership and communication. It does not mean eve
 
 ## 3. Repository Architecture
 
-LeaseFlow is maintained through six repositories.
+AssetFlow is maintained through six repositories.
 
 | Repository | Responsibility |
 |---|---|
-| `leaseflow-platform` | Docker Compose, API gateway, infrastructure, monitoring, CI/CD, deployment configuration |
-| `leaseflow-identity` | Authentication, users, organizations, memberships, roles, permissions, and security |
-| `leaseflow-configuration` | Organization configuration, finance products, product rules, asset definitions, and settings |
-| `leaseflow-financing` | Customers, assets, lenders, calculations, quotations, proposals, and external submission records |
-| `leaseflow-documents` | Document storage, templates, generation, conversion, processing, and package references |
-| `leaseflow-web` | The single React application containing all user-facing modules |
+| `AssetFlow-platform` | Docker Compose, API gateway, infrastructure, monitoring, CI/CD, deployment configuration |
+| `AssetFlow-identity` | Authentication, users, organizations, memberships, roles, permissions, and security |
+| `AssetFlow-configuration` | Organization configuration, finance products, product rules, asset definitions, and settings |
+| `AssetFlow-financing` | Customers, assets, lenders, calculations, quotations, proposals, and external submission records |
+| `AssetFlow-document` | Document storage, templates, generation, conversion, processing, and package references |
+| `AssetFlow-web` | The single React application containing all user-facing modules |
 
 ### 3.1 Repository independence
 
@@ -159,7 +159,7 @@ Services must not import another service's internal database models or applicati
 
 ### 4.1 Identity Service
 
-Repository: `leaseflow-identity`
+Repository: `AssetFlow-identity`
 
 Database: `identity_db`
 
@@ -211,7 +211,7 @@ The service does not own customer, asset, quotation, proposal, or document busin
 
 ### 4.2 Configuration Service
 
-Repository: `leaseflow-configuration`
+Repository: `AssetFlow-configuration`
 
 Database: `configuration_db`
 
@@ -242,7 +242,7 @@ Initial entries:
 - Finance Lease.
 - Operating Lease.
 
-These are finance products within LeaseFlow, not separate software products or repositories.
+These are finance products within AssetFlow, not separate software products or repositories.
 
 The Configuration Service controls product definitions and versions.
 
@@ -254,7 +254,7 @@ The initial working product is HP. Finance Lease and Operating Lease are introdu
 
 ### 4.3 Financing Service
 
-Repository: `leaseflow-financing`
+Repository: `AssetFlow-financing`
 
 Database: `financing_db`
 
@@ -306,11 +306,11 @@ For Release 1, it records dealership-side activity, including:
 - Submitting organization member.
 - Optional lender reference.
 
-The lender's actual underwriting, credit checks, decision, agreement generation, and servicing happen outside LeaseFlow.
+The lender's actual underwriting, credit checks, decision, agreement generation, and servicing happen outside AssetFlow.
 
 ### 4.4 Documents Service
 
-Repository: `leaseflow-documents`
+Repository: `AssetFlow-document`
 
 Database: `document_db`
 
@@ -361,11 +361,11 @@ Because the services have separate databases, this relationship is validated thr
 
 ## 5. Frontend Architecture
 
-Repository: `leaseflow-web`
+Repository: `AssetFlow-web`
 
 Technology: React and TypeScript.
 
-LeaseFlow uses one frontend application for all dealership-facing functionality.
+AssetFlow uses one frontend application for all dealership-facing functionality.
 
 The frontend is organized into functional modules rather than separate applications.
 
@@ -439,7 +439,7 @@ This is a logical organization. Exact folder structures can be refined during fr
 
 ## 6. API Gateway
 
-The API Gateway is part of `leaseflow-platform`.
+The API Gateway is part of `AssetFlow-platform`.
 
 The frontend communicates with backend services through a single entry point.
 
@@ -491,7 +491,7 @@ However:
 
 ## 7. Database and Data Ownership
 
-LeaseFlow uses four independent PostgreSQL databases.
+AssetFlow uses four independent PostgreSQL databases.
 
 | Database | Owner | Main data |
 |---|---|---|
@@ -736,7 +736,7 @@ API keys are for authorized machine-to-machine or integration access.
 
 ## 10. Multi-Tenant Isolation
 
-LeaseFlow is a multi-tenant application.
+AssetFlow is a multi-tenant application.
 
 Each dealership is an organization.
 
@@ -1167,7 +1167,7 @@ The following constraints are mandatory unless an explicit architecture decision
 | File storage | MinIO locally, S3-compatible architecture |
 | Background processing | Redis and Celery initially |
 | Deployment | Cloud deployment only at the final milestone |
-| Lender processing | Outside LeaseFlow Release 1 |
+| Lender processing | Outside AssetFlow Release 1 |
 
 ---
 
@@ -1194,7 +1194,7 @@ The architecture should permit future extension without implementing these featu
 
 The architecture is considered implemented correctly when:
 
-- All seven repositories have clear ownership.
+- All Six repositories have clear ownership.
 - The four backend services can run independently.
 - Each service accesses only its own database.
 - The frontend communicates through the API Gateway.

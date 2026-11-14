@@ -1,6 +1,6 @@
 # 03 — Domain Model
 
-**Project:** LeaseFlow  
+**Project:** AssetFlow  
 **Document:** Domain Model  
 **Version:** 1.0  
 **Initial Market:** United Kingdom  
@@ -11,7 +11,7 @@
 
 # 1. Purpose
 
-This document defines LeaseFlow's business domain: the concepts the platform manages, what each concept represents, how concepts relate to one another, and which business rules must always remain true.
+This document defines AssetFlow's business domain: the concepts the platform manages, what each concept represents, how concepts relate to one another, and which business rules must always remain true.
 
 It provides the foundation for:
 
@@ -26,7 +26,7 @@ This document describes the domain independently of database tables or framework
 
 # 2. Domain Boundaries
 
-LeaseFlow is a dealership-facing finance proposal preparation and management platform.
+AssetFlow is a dealership-facing finance proposal preparation and management platform.
 
 In Release 1, a dealership can:
 
@@ -38,16 +38,16 @@ In Release 1, a dealership can:
 6. Prepare finance proposals and supporting documents.
 7. Generate an application package.
 8. Submit the package externally through a lender's portal or another external channel.
-9. Record that submission in LeaseFlow.
+9. Record that submission in AssetFlow.
 10. Track its own internal records and reporting.
 
-LeaseFlow does not perform lender-side underwriting, credit decisions, agreement creation, or payment collection.
+AssetFlow does not perform lender-side underwriting, credit decisions, agreement creation, or payment collection.
 
 ## 2.1 Domain actors
 
 | Actor | Responsibility |
 |---|---|
-| Dealership | Primary organization using LeaseFlow |
+| Dealership | Primary organization using AssetFlow |
 | Dealership User | Employee or authorized representative operating the platform |
 | Customer | Person or business purchasing or financing a vehicle |
 | Lender | External finance provider receiving proposals |
@@ -74,11 +74,11 @@ Cross-service relationships use identifiers and service APIs or events. A servic
 
 # 4. Identity and Organization Domain
 
-This domain is owned by `leaseflow-identity`.
+This domain is owned by `AssetFlow-identity`.
 
 ## 4.1 Organization
 
-Represents a dealership business using LeaseFlow.
+Represents a dealership business using AssetFlow.
 
 Responsibilities:
 
@@ -97,7 +97,7 @@ Important rules:
 
 ## 4.2 User
 
-Represents an individual with an authenticated LeaseFlow account.
+Represents an individual with an authenticated AssetFlow account.
 
 Responsibilities:
 
@@ -148,7 +148,7 @@ Release 1 does not require a mandatory internal approval workflow.
 
 # 5. Configuration Domain
 
-This domain is owned by `leaseflow-configuration`.
+This domain is owned by `AssetFlow-configuration`.
 
 It defines how an organization and its finance products behave without owning transactional finance records.
 
@@ -182,7 +182,7 @@ A branch belongs to one organization. Branch-level functionality can be introduc
 
 ## 5.3 Finance Product Definition
 
-Represents a finance product supported by LeaseFlow.
+Represents a finance product supported by AssetFlow.
 
 Examples:
 
@@ -236,7 +236,7 @@ Exact Hire Purchase formulas and UK-specific financial assumptions are defined i
 
 ## 5.6 Asset Category and Field Definition
 
-Represents configurable categories and attributes for assets supported by LeaseFlow.
+Represents configurable categories and attributes for assets supported by AssetFlow.
 
 Release 1 supports vehicles.
 
@@ -264,7 +264,7 @@ The configuration service owns the assignment. The documents service owns the ac
 
 # 6. Financing Domain
 
-This domain is owned by `leaseflow-financing`.
+This domain is owned by `AssetFlow-financing`.
 
 It contains the dealership's operational finance records.
 
@@ -347,9 +347,9 @@ Responsibilities:
 - Store relevant contact details.
 - Store external portal information where available.
 
-A lender is not a LeaseFlow tenant customer in Release 1.
+A lender is not a AssetFlow tenant customer in Release 1.
 
-A lender does not receive a LeaseFlow login or access to dealership records through the MVP.
+A lender does not receive a AssetFlow login or access to dealership records through the MVP.
 
 The lender record represents an external counterparty, not a lender-side workflow participant.
 
@@ -551,17 +551,17 @@ Important rules:
 - Corrections should be recorded as additional audit information rather than silently rewriting history.
 - A later proposal revision must not change the package version referenced by an earlier submission.
 
-LeaseFlow does not automatically know whether the lender has received, reviewed, approved or rejected the application.
+AssetFlow does not automatically know whether the lender has received, reviewed, approved or rejected the application.
 
 # 7. Documents Domain
 
-This domain is owned by `leaseflow-documents`.
+This domain is owned by `AssetFlow-document`.
 
 It manages uploaded and generated files, while financing records retain references to relevant documents.
 
 ## 7.1 Document
 
-Represents a file stored and managed by LeaseFlow.
+Represents a file stored and managed by AssetFlow.
 
 Examples:
 
@@ -624,7 +624,7 @@ The document service owns template content and processing. Configuration owns th
 
 ## 7.4 Generated Document
 
-Represents a document generated by LeaseFlow using a template and business data.
+Represents a document generated by AssetFlow using a template and business data.
 
 Examples:
 
@@ -800,15 +800,15 @@ These rules must always hold regardless of the API, frontend or database impleme
 ## 10.5 External Lender Boundary
 
 1. Lenders are external counterparties in Release 1.
-2. LeaseFlow does not create lender user accounts or lender-side workflows.
-3. LeaseFlow does not perform lender credit checks or underwriting.
-4. LeaseFlow does not record lender approval or rejection as a platform-controlled decision.
-5. LeaseFlow does not create lender agreements or collect lender repayments.
+2. AssetFlow does not create lender user accounts or lender-side workflows.
+3. AssetFlow does not perform lender credit checks or underwriting.
+4. AssetFlow does not record lender approval or rejection as a platform-controlled decision.
+5. AssetFlow does not create lender agreements or collect lender repayments.
 6. External lender activity is recorded only when confirmed and entered by an authorized dealership user.
 
 # 11. Historical Data and Versioning
 
-LeaseFlow must distinguish current business information from historical information used in financial transactions.
+AssetFlow must distinguish current business information from historical information used in financial transactions.
 
 The following records require historical preservation:
 

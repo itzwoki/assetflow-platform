@@ -1,6 +1,6 @@
 # 04 — Database Design
 
-**Project:** LeaseFlow  
+**Project:** AssetFlow  
 **Document:** Database Design  
 **Status:** Proposed — subject to final schema review  
 **Market:** United Kingdom  
@@ -10,7 +10,7 @@
 
 # 1. Purpose
 
-This document defines the database architecture, ownership boundaries, entities, relationships, constraints, and data integrity rules for LeaseFlow.
+This document defines the database architecture, ownership boundaries, entities, relationships, constraints, and data integrity rules for AssetFlow.
 
 The database design must support:
 
@@ -31,14 +31,14 @@ The design must be production-quality while remaining practical to develop and r
 
 # 2. Database Architecture
 
-LeaseFlow will use four independently owned PostgreSQL databases.
+AssetFlow will use four independently owned PostgreSQL databases.
 
 | Database | Owning service | Responsibility |
 |---|---|---|
-| `identity_db` | `leaseflow-identity` | Users, organizations, memberships, roles, permissions and authentication |
-| `configuration_db` | `leaseflow-configuration` | Organization settings, finance products, product versions and configurable rules |
-| `financing_db` | `leaseflow-financing` | Customers, addresses, bank accounts, vehicles, lenders, calculations, quotations, proposals and submissions |
-| `document_db` | `leaseflow-documents` | Documents, uploads, versions, templates, generated files and package references |
+| `identity_db` | `AssetFlow-identity` | Users, organizations, memberships, roles, permissions and authentication |
+| `configuration_db` | `AssetFlow-configuration` | Organization settings, finance products, product versions and configurable rules |
+| `financing_db` | `AssetFlow-financing` | Customers, addresses, bank accounts, vehicles, lenders, calculations, quotations, proposals and submissions |
+| `document_db` | `AssetFlow-document` | Documents, uploads, versions, templates, generated files and package references |
 
 ## 2.1 Local PostgreSQL setup
 
@@ -177,7 +177,7 @@ Soft deletion must not bypass financial or historical retention requirements.
 # 4. Identity Database
 
 **Database:** `identity_db`  
-**Service:** `leaseflow-identity`
+**Service:** `AssetFlow-identity`
 
 Owns user accounts, organizations, memberships, authentication, and authorization.
 
@@ -218,7 +218,7 @@ A user can belong to multiple organizations through separate membership records.
 
 ## 4.2 `organizations`
 
-Stores dealership organizations registered on LeaseFlow.
+Stores dealership organizations registered on AssetFlow.
 
 | Column | Type | Constraints / Description |
 |---|---|---|
@@ -435,7 +435,7 @@ Authentication secrets must not be stored in plaintext.
 # 5. Configuration Database
 
 **Database:** `configuration_db`  
-**Service:** `leaseflow-configuration`
+**Service:** `AssetFlow-configuration`
 
 Owns finance product definitions, product versions, organization settings, and configurable business rules.
 
@@ -465,7 +465,7 @@ Initial products:
 | `FL` | Finance Lease | Release 2 |
 | `OL` | Operating Lease | Release 3 |
 
-LeaseFlow is one platform. These are finance products offered through it, not separate software products.
+AssetFlow is one platform. These are finance products offered through it, not separate software products.
 
 ## 5.2 `finance_product_versions`
 
@@ -642,7 +642,7 @@ Secrets must be encrypted or managed through secure secret storage.
 # 6. Financing Database
 
 **Database:** `financing_db`  
-**Service:** `leaseflow-financing`
+**Service:** `AssetFlow-financing`
 
 This database owns the primary business domain:
 
@@ -824,7 +824,7 @@ Do not enforce a one-to-one relationship between a vehicle and a quotation or pr
 
 Stores external lender reference information.
 
-Lenders are counterparties, not LeaseFlow tenant organizations.
+Lenders are counterparties, not AssetFlow tenant organizations.
 
 | Column | Type | Constraints / Description |
 |---|---|---|
@@ -1299,7 +1299,7 @@ If the point of contact is also a customer, the appropriate customer relationshi
 
 Records dealership-confirmed submissions to external lenders.
 
-LeaseFlow does not directly submit applications to lender systems in Release 1.
+AssetFlow does not directly submit applications to lender systems in Release 1.
 
 | Column | Type | Constraints / Description |
 |---|---|---|
@@ -1382,7 +1382,7 @@ Sensitive personal and financial information must not be copied into audit metad
 # 7. Documents Database
 
 **Database:** `document_db`  
-**Service:** `leaseflow-documents`
+**Service:** `AssetFlow-document`
 
 Owns document files, metadata, templates, versions, generated documents and proposal package references.
 
@@ -1959,16 +1959,16 @@ Immutable transaction records, audit records, token records, and version-history
 Each service owns its Alembic migration history.
 
 ```text
-leaseflow-identity/
+AssetFlow-identity/
 └── alembic/
 
-leaseflow-configuration/
+AssetFlow-configuration/
 └── alembic/
 
-leaseflow-financing/
+AssetFlow-financing/
 └── alembic/
 
-leaseflow-documents/
+AssetFlow-document/
 └── alembic/
 ```
 
@@ -2036,7 +2036,7 @@ These may be introduced in future releases after their requirements are defined.
 
 The following decisions are mandatory unless formally revised.
 
-1. LeaseFlow is one platform, not three separate customer-facing software products.
+1. AssetFlow is one platform, not three separate customer-facing software products.
 2. Finance products are separate records in the configuration database.
 3. Release 1 supports vehicle dealerships and Hire Purchase only.
 4. Four independently owned databases are used.

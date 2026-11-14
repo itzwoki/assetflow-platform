@@ -1,4 +1,4 @@
-# LeaseFlow — Project Charter
+# AssetFlow — Project Charter
 
 **Document Version:** 1.1  
 **Status:** Approved project direction  
@@ -11,13 +11,13 @@
 
 ## 1. Project Overview
 
-LeaseFlow is a dealership-focused finance management platform designed initially for the United Kingdom vehicle finance market.
+AssetFlow is a dealership-focused finance management platform designed initially for the United Kingdom vehicle finance market.
 
 The platform enables vehicle dealerships to manage customers and vehicles, configure finance products, calculate finance options, generate quotations and proposals, manage supporting documents, and prepare complete finance application packages for submission to external lenders.
 
-LeaseFlow is responsible for the dealership's finance preparation process. The lender submission is the final business boundary of the platform.
+AssetFlow is responsible for the dealership's finance preparation process. The lender submission is the final business boundary of the platform.
 
-Lenders continue to operate through their own systems and portals. LeaseFlow does not attempt to replace those systems.
+Lenders continue to operate through their own systems and portals. AssetFlow does not attempt to replace those systems.
 
 The project will initially support vehicle dealerships and Hire Purchase (HP). Its architecture must allow additional dealership types, asset categories, and finance products to be introduced through future development without requiring a complete redesign.
 
@@ -67,7 +67,7 @@ The project aims to:
 
 ### 4.2 Explicitly outside the initial scope
 
-LeaseFlow will not implement:
+AssetFlow will not implement:
 
 - Lender employee accounts or lender portals.
 - Lender-side organization management.
@@ -82,7 +82,7 @@ LeaseFlow will not implement:
 - Finance Lease and Operating Lease implementation in the initial HP release.
 - Cloud deployment during normal development.
 
-**Boundary:** LeaseFlow prepares the proposal and its supporting documents for the dealership to submit through the lender's external channel. It does not take responsibility for what the lender does after receiving the application.
+**Boundary:** AssetFlow prepares the proposal and its supporting documents for the dealership to submit through the lender's external channel. It does not take responsibility for what the lender does after receiving the application.
 
 ### 4.3 Future expansion
 
@@ -165,7 +165,7 @@ Each dealership owns its:
 
 Lenders are external counterparties. A dealership may have relationships with multiple lenders, and a lender may work with multiple dealerships.
 
-LeaseFlow may maintain lender reference information and dealership-lender panel configuration. It does not give lenders access to the dealership's tenant or data.
+AssetFlow may maintain lender reference information and dealership-lender panel configuration. It does not give lenders access to the dealership's tenant or data.
 
 Strict tenant isolation must be enforced by backend authorization and data-access rules.
 
@@ -208,16 +208,16 @@ Versions must be pinned and documented. Final technology choices and service bou
 
 ## 10. Repository Structure
 
-The project will use seven independent repositories:
+The project will use Six independent repositories:
 
 | Repository | Responsibility |
 |---|---|
-| `leaseflow-platform` | Docker Compose, local orchestration, gateway, infrastructure, monitoring, and deployment configuration |
-| `leaseflow-identity` | Authentication, organizations, memberships, users, roles, permissions, and sessions |
-| `leaseflow-configuration` | Organization settings, branding, finance product definitions, versions, and configurable rules |
-| `leaseflow-financing` | Customers, vehicles, lenders, calculations, quotations, proposals, and submission preparation |
-| `leaseflow-documents` | File storage metadata, document versions, templates, placeholders, generation, and processing |
-| `leaseflow-web` | The single React/TypeScript frontend |
+| `AssetFlow-platform` | Docker Compose, local orchestration, gateway, infrastructure, monitoring, and deployment configuration |
+| `AssetFlow-identity` | Authentication, organizations, memberships, users, roles, permissions, and sessions |
+| `AssetFlow-configuration` | Organization settings, branding, finance product definitions, versions, and configurable rules |
+| `AssetFlow-financing` | Customers, vehicles, lenders, calculations, quotations, proposals, and submission preparation |
+| `AssetFlow-document` | File storage metadata, document versions, templates, placeholders, generation, and processing |
+| `AssetFlow-web` | The single React/TypeScript frontend |
 
 Each repository has its own responsibilities and release/versioning discipline.
 
@@ -323,7 +323,7 @@ The detailed sequencing and acceptance criteria will be defined in `10_IMPLEMENT
 - Initial organization type: Vehicle dealership.
 - Initial finance product: Hire Purchase.
 - One frontend application.
-- Seven repositories.
+- Six repositories.
 - Four independently owned databases.
 - Local-first development.
 - No lender-side workflows.
