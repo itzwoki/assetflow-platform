@@ -120,7 +120,7 @@ All Release 1 users belong to vehicle dealership organizations.
 - Manages dealership users.
 - Assigns roles and permissions.
 - Maintains organization configuration.
-- Manages branches and available settings where enabled.
+- Manages available organization settings where enabled.
 
 ## 3.3 Finance Manager
 
@@ -229,7 +229,7 @@ Allow each dealership to configure and manage its own AssetFlow environment.
 
 **FR-ORG-004:** Organization settings must be isolated from other dealerships.
 
-**FR-ORG-005:** The platform should support dealership branches and locations.
+**FR-ORG-005:** Dealership branches and locations are explicitly out of scope for Release 1 and must not be implemented or surfaced in the application.
 
 **FR-ORG-006:** Organization-level localization settings must be supported where required.
 
@@ -245,7 +245,6 @@ Allow each dealership to configure and manage its own AssetFlow environment.
 
 - Organization profile.
 - Branding and document identity.
-- Branches and locations.
 - Users and permissions.
 - Finance product availability.
 - Asset categories and configurable fields.
@@ -749,14 +748,13 @@ These are high-level workflows. Detailed states, validations, exceptions, and tr
 
 ## 5.1 Dealership Setup
 
-1. Dealership organization is created or provisioned.
-2. Organization profile and settings are configured.
-3. Owner/admin account is established.
-4. Users are invited or created.
+1. Dealership organization is created or provisioned by platform administration, together with its initial owner account and default configuration.
+2. The organization owner signs in using the provided account.
+3. The owner completes the organization profile.
+4. Users are invited by email or created directly by an administrator.
 5. Roles and permissions are assigned.
-6. Branches and organization settings are configured.
+6. Organization settings, branding, and finance product availability are configured.
 7. External lender references are added.
-8. Finance product availability is configured.
 
 ## 5.2 Customer and Vehicle Setup
 
@@ -820,7 +818,7 @@ The initial domain is expected to include:
 | Domain           | Main concepts                                                              |
 | ---------------- | -------------------------------------------------------------------------- |
 | Identity         | User, organization, membership, role, permission, session                  |
-| Configuration    | Organization settings, branch, product definition, product version, rules  |
+| Configuration    | Organization settings, product definition, product version, rules          |
 | Customer         | Customer, contact details, address, relevant application information       |
 | Vehicle          | Vehicle, specifications, identifiers, valuation                            |
 | Lender reference | Lender, dealership-lender relationship, supported products                 |
@@ -941,7 +939,7 @@ The platform should provide:
 - One React/TypeScript frontend.
 - Python/FastAPI backend services.
 - Four independently owned PostgreSQL databases.
-- Six repositories.
+- six repositories.
 - Docker Compose for local orchestration.
 - API-based communication between services.
 
@@ -998,7 +996,7 @@ The final page-level requirements, component structure, navigation behavior, and
 
 Each service must expose documented APIs for its owned data and responsibilities.
 
-The contracts repository will contain versioned shared schemas and event definitions.
+Each service owns and publishes its own OpenAPI specification and event definitions. There is no shared contracts repository; shared contracts must not become a shared database-model package.
 
 ## 10.2 External Lenders
 

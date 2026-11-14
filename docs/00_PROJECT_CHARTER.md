@@ -118,7 +118,7 @@ Access must be controlled by organization membership, role, and permissions.
 ## 6. Core Product Modules
 
 1. **Identity and Access Management** — Authentication, organizations, memberships, sessions, roles, permissions, and security.
-2. **Organization Configuration** — Organization profile, branding, branches, localization, settings, and configurable business rules.
+2. **Organization Configuration** — Organization profile, branding, localization, settings, and configurable business rules.
 3. **Customer Management** — Customer records and relevant contact and financial information.
 4. **Vehicle Management** — Vehicle records, specifications, values, and supporting information.
 5. **Lender Management** — External lender reference records and dealership-lender panel relationships.
@@ -208,16 +208,16 @@ Versions must be pinned and documented. Final technology choices and service bou
 
 ## 10. Repository Structure
 
-The project will use Six independent repositories:
+The project will use six independent repositories:
 
 | Repository | Responsibility |
 |---|---|
-| `AssetFlow-platform` | Docker Compose, local orchestration, gateway, infrastructure, monitoring, and deployment configuration |
-| `AssetFlow-identity` | Authentication, organizations, memberships, users, roles, permissions, and sessions |
-| `AssetFlow-configuration` | Organization settings, branding, finance product definitions, versions, and configurable rules |
-| `AssetFlow-financing` | Customers, vehicles, lenders, calculations, quotations, proposals, and submission preparation |
-| `AssetFlow-document` | File storage metadata, document versions, templates, placeholders, generation, and processing |
-| `AssetFlow-web` | The single React/TypeScript frontend |
+| `assetflow-platform` | Docker Compose, local orchestration, gateway, infrastructure, monitoring, and deployment configuration |
+| `assetflow-identity` | Authentication, organizations, memberships, users, roles, permissions, and sessions |
+| `assetflow-configuration` | Organization settings, branding, finance product definitions, versions, and configurable rules |
+| `assetflow-financing` | Customers, vehicles, lenders, calculations, quotations, proposals, and submission preparation |
+| `assetflow-document` | File storage metadata, document versions, templates, placeholders, generation, and processing |
+| `assetflow-web` | The single React/TypeScript frontend |
 
 Each repository has its own responsibilities and release/versioning discipline.
 
@@ -229,10 +229,10 @@ The initial architecture uses four independent PostgreSQL databases:
 
 | Database | Owner |
 |---|---|
-| `identity_db` | Identity service |
-| `configuration_db` | Configuration service |
-| `financing_db` | Financing service |
-| `document_db` | Document service |
+| `assetflow_identity` | Identity service |
+| `assetflow_configuration` | Configuration service |
+| `assetflow_financing` | Financing service |
+| `assetflow_document` | Document service |
 
 Rules:
 
@@ -323,7 +323,7 @@ The detailed sequencing and acceptance criteria will be defined in `10_IMPLEMENT
 - Initial organization type: Vehicle dealership.
 - Initial finance product: Hire Purchase.
 - One frontend application.
-- Six repositories.
+- six repositories.
 - Four independently owned databases.
 - Local-first development.
 - No lender-side workflows.

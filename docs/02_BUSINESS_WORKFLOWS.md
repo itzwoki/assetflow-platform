@@ -98,17 +98,16 @@ Establish a dealership organization and configure the minimum information requir
 
 ## 3.3 Workflow
 
-1. An organization is created or provisioned.
-2. The organization owner account is established.
+1. An organization is created or provisioned by platform administration, together with its initial owner account and default configuration.
+2. The organization owner signs in using the provided account.
 3. The owner completes the organization profile.
 4. Organization branding is configured.
-5. Branches are added if required.
-6. Users are invited or created.
-7. Roles and permissions are assigned.
-8. Available finance products are configured.
-9. External lender references are added.
-10. Dealership-lender relationships are configured.
-11. Relevant document templates are uploaded or configured.
+5. Users are invited by email or created directly by an administrator.
+6. Roles and permissions are assigned.
+7. Available finance products are configured.
+8. External lender references are added.
+9. Dealership-lender relationships are configured.
+10. Relevant document templates are uploaded or configured.
 
 ## 3.4 Organization Information
 

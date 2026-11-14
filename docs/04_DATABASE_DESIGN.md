@@ -35,10 +35,10 @@ AssetFlow will use four independently owned PostgreSQL databases.
 
 | Database | Owning service | Responsibility |
 |---|---|---|
-| `identity_db` | `AssetFlow-identity` | Users, organizations, memberships, roles, permissions and authentication |
-| `configuration_db` | `AssetFlow-configuration` | Organization settings, finance products, product versions and configurable rules |
-| `financing_db` | `AssetFlow-financing` | Customers, addresses, bank accounts, vehicles, lenders, calculations, quotations, proposals and submissions |
-| `document_db` | `AssetFlow-document` | Documents, uploads, versions, templates, generated files and package references |
+| `assetflow_identity` | `assetflow-identity` | Users, organizations, memberships, roles, permissions and authentication |
+| `assetflow_configuration` | `assetflow-configuration` | Organization settings, finance products, product versions and configurable rules |
+| `assetflow_financing` | `assetflow-financing` | Customers, addresses, bank accounts, vehicles, lenders, calculations, quotations, proposals and submissions |
+| `assetflow_document` | `assetflow-document` | Documents, uploads, versions, templates, generated files and package references |
 
 ## 2.1 Local PostgreSQL setup
 
@@ -47,10 +47,10 @@ All four databases will run on one local PostgreSQL server during development.
 ```text
 PostgreSQL
 │
-├── identity_db
-├── configuration_db
-├── financing_db
-└── document_db
+├── assetflow_identity
+├── assetflow_configuration
+├── assetflow_financing
+└── assetflow_document
 ```
 
 Separate PostgreSQL servers are not required for local development.
@@ -68,7 +68,7 @@ Each service owns its database.
 - No cross-database foreign keys are permitted.
 - Each service manages its own migrations.
 
-For example, `financing_db` may store an `organization_id` referencing an organization in `identity_db`, but it must not create a foreign key to that database.
+For example, `assetflow_financing` may store an `organization_id` referencing an organization in `assetflow_identity`, but it must not create a foreign key to that database.
 
 ## 2.3 Transaction boundaries
 
@@ -165,6 +165,7 @@ Soft deletion must not bypass financial or historical retention requirements.
 
 - Store monetary values using appropriate decimal precision.
 - Store currency explicitly using ISO 4217 codes, such as `GBP`.
+- Currency is a display and formatting setting only. Changing the organization's currency must not alter financial calculations, decimal precision, or rounding behaviour.
 - Use appropriate precision for interest rates and percentages.
 - Normalize email addresses before uniqueness validation.
 - Do not store passwords or raw API secrets.
@@ -176,8 +177,8 @@ Soft deletion must not bypass financial or historical retention requirements.
 
 # 4. Identity Database
 
-**Database:** `identity_db`  
-**Service:** `AssetFlow-identity`
+**Database:** `assetflow_identity`  
+**Service:** `assetflow-identity`
 
 Owns user accounts, organizations, memberships, authentication, and authorization.
 
@@ -434,8 +435,8 @@ Authentication secrets must not be stored in plaintext.
 
 # 5. Configuration Database
 
-**Database:** `configuration_db`  
-**Service:** `AssetFlow-configuration`
+**Database:** `assetflow_configuration`  
+**Service:** `assetflow-configuration`
 
 Owns finance product definitions, product versions, organization settings, and configurable business rules.
 
@@ -537,11 +538,22 @@ default_locale
 default_document_template
 ```
 
+### Currency
+
+Currency is an organization-level setting stored in `organization_settings`, not in `organization_profiles`.
+
+- Supported values: `GBP` (default) and `USD`. Additional ISO 4217 codes may be enabled later.
+- The organization administrator selects the currency from a dropdown in the organization settings screen.
+- Currency controls display and number formatting only. It does not affect calculation logic, decimal precision, or rounding.
+- Each calculation, quotation, proposal, and submission copies the active `currency_code` at creation time and retains it for historical accuracy.
+
 This table must not replace proper relational business entities.
 
 ## 5.5 `organization_profiles`
 
 Stores organization-specific branding and presentation information.
+
+Currency, locale, and timezone settings are owned by `organization_settings`, not by this table.
 
 | Column | Type | Constraints / Description |
 |---|---|---|
@@ -641,8 +653,8 @@ Secrets must be encrypted or managed through secure secret storage.
 
 # 6. Financing Database
 
-**Database:** `financing_db`  
-**Service:** `AssetFlow-financing`
+**Database:** `assetflow_financing`  
+**Service:** `assetflow-financing`
 
 This database owns the primary business domain:
 
@@ -1338,7 +1350,7 @@ Multiple submissions may be recorded when the business workflow requires them.
 
 ### Package reference integrity
 
-`proposal_package_reference_id` is a logical cross-service reference because `proposal_package_references` belongs to `document_db`.
+`proposal_package_reference_id` is a logical cross-service reference because `proposal_package_references` belongs to `assetflow_document`.
 
 It cannot have a conventional PostgreSQL foreign key across databases.
 
@@ -1381,8 +1393,8 @@ Sensitive personal and financial information must not be copied into audit metad
 
 # 7. Documents Database
 
-**Database:** `document_db`  
-**Service:** `AssetFlow-document`
+**Database:** `assetflow_document`  
+**Service:** `assetflow-document`
 
 Owns document files, metadata, templates, versions, generated documents and proposal package references.
 
@@ -1959,16 +1971,16 @@ Immutable transaction records, audit records, token records, and version-history
 Each service owns its Alembic migration history.
 
 ```text
-AssetFlow-identity/
+assetflow-identity/
 └── alembic/
 
-AssetFlow-configuration/
+assetflow-configuration/
 └── alembic/
 
-AssetFlow-financing/
+assetflow-financing/
 └── alembic/
 
-AssetFlow-document/
+assetflow-document/
 └── alembic/
 ```
 

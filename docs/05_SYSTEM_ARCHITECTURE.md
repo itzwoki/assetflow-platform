@@ -35,7 +35,6 @@ The platform consists of:
 - One React frontend.
 - Four backend services.
 - One API gateway.
-- One shared contracts repository.
 - One platform/infrastructure repository.
 - Supporting infrastructure for caching, background processing, file storage, and observability.
 
@@ -65,10 +64,10 @@ flowchart TB
     end
 
     subgraph Databases
-        IdentityDB[(identity_db)]
-        ConfigDB[(configuration_db)]
-        FinancingDB[(financing_db)]
-        DocumentDB[(document_db)]
+        IdentityDB[(assetflow_identity)]
+        ConfigDB[(assetflow_configuration)]
+        FinancingDB[(assetflow_financing)]
+        DocumentDB[(assetflow_document)]
     end
 
     subgraph Infrastructure
@@ -120,12 +119,12 @@ AssetFlow is maintained through six repositories.
 
 | Repository | Responsibility |
 |---|---|
-| `AssetFlow-platform` | Docker Compose, API gateway, infrastructure, monitoring, CI/CD, deployment configuration |
-| `AssetFlow-identity` | Authentication, users, organizations, memberships, roles, permissions, and security |
-| `AssetFlow-configuration` | Organization configuration, finance products, product rules, asset definitions, and settings |
-| `AssetFlow-financing` | Customers, assets, lenders, calculations, quotations, proposals, and external submission records |
-| `AssetFlow-document` | Document storage, templates, generation, conversion, processing, and package references |
-| `AssetFlow-web` | The single React application containing all user-facing modules |
+| `assetflow-platform` | Docker Compose, API gateway, infrastructure, monitoring, CI/CD, deployment configuration |
+| `assetflow-identity` | Authentication, users, organizations, memberships, roles, permissions, and security |
+| `assetflow-configuration` | Organization configuration, finance products, product rules, asset definitions, and settings |
+| `assetflow-financing` | Customers, assets, lenders, calculations, quotations, proposals, and external submission records |
+| `assetflow-document` | Document storage, templates, generation, conversion, processing, and package references |
+| `assetflow-web` | The single React application containing all user-facing modules |
 
 ### 3.1 Repository independence
 
@@ -143,12 +142,13 @@ A backend repository owns:
 
 Services must not import another service's internal database models or application modules.
 
-### 3.2 Shared contracts
+### 3.2 API contracts
 
 - Each FastAPI service owns its Pydantic request and response models.
 - FastAPI generates the OpenAPI specification from these models.
 - OpenAPI specifications serve as the API contracts for frontend and service integrations.
 - The frontend generates TypeScript types and API clients from the service specifications where practical.
+- There is no shared contracts repository. Each service publishes its own specification and event definitions.
 - Shared error response conventions are documented and implemented consistently across services.
 - Event schemas are versioned and maintained alongside the service that owns and publishes the events.
 - Services must not duplicate another service's internal models or import its implementation code.
@@ -159,9 +159,9 @@ Services must not import another service's internal database models or applicati
 
 ### 4.1 Identity Service
 
-Repository: `AssetFlow-identity`
+Repository: `assetflow-identity`
 
-Database: `identity_db`
+Database: `assetflow_identity`
 
 The Identity Service is responsible for authentication, identity management, organization membership, and authorization.
 
@@ -211,9 +211,9 @@ The service does not own customer, asset, quotation, proposal, or document busin
 
 ### 4.2 Configuration Service
 
-Repository: `AssetFlow-configuration`
+Repository: `assetflow-configuration`
 
-Database: `configuration_db`
+Database: `assetflow_configuration`
 
 The Configuration Service manages configurable platform and organization-level settings.
 
@@ -254,9 +254,9 @@ The initial working product is HP. Finance Lease and Operating Lease are introdu
 
 ### 4.3 Financing Service
 
-Repository: `AssetFlow-financing`
+Repository: `assetflow-financing`
 
-Database: `financing_db`
+Database: `assetflow_financing`
 
 The Financing Service owns the core dealership financing domain.
 
@@ -310,9 +310,9 @@ The lender's actual underwriting, credit checks, decision, agreement generation,
 
 ### 4.4 Documents Service
 
-Repository: `AssetFlow-document`
+Repository: `assetflow-document`
 
-Database: `document_db`
+Database: `assetflow_document`
 
 The Documents Service owns document storage and document-processing functionality.
 
@@ -361,7 +361,7 @@ Because the services have separate databases, this relationship is validated thr
 
 ## 5. Frontend Architecture
 
-Repository: `AssetFlow-web`
+Repository: `assetflow-web`
 
 Technology: React and TypeScript.
 
@@ -439,7 +439,7 @@ This is a logical organization. Exact folder structures can be refined during fr
 
 ## 6. API Gateway
 
-The API Gateway is part of `AssetFlow-platform`.
+The API Gateway is part of `assetflow-platform`.
 
 The frontend communicates with backend services through a single entry point.
 
@@ -495,10 +495,10 @@ AssetFlow uses four independent PostgreSQL databases.
 
 | Database | Owner | Main data |
 |---|---|---|
-| `identity_db` | Identity Service | Users, organizations, memberships, roles, permissions, authentication |
-| `configuration_db` | Configuration Service | Finance products, product versions, organization settings, rules |
-| `financing_db` | Financing Service | Customers, assets, lenders, calculations, quotations, proposals |
-| `document_db` | Documents Service | Documents, templates, generated files, package references |
+| `assetflow_identity` | Identity Service | Users, organizations, memberships, roles, permissions, authentication |
+| `assetflow_configuration` | Configuration Service | Finance products, product versions, organization settings, rules |
+| `assetflow_financing` | Financing Service | Customers, assets, lenders, calculations, quotations, proposals |
+| `assetflow_document` | Documents Service | Documents, templates, generated files, package references |
 
 All four databases may run on the same local PostgreSQL server during development.
 
@@ -694,7 +694,7 @@ Store refresh-token hashes rather than reusable plaintext secrets.
 
 ### 9.4 Role-based access control
 
-Roles and permissions are stored in `identity_db`.
+Roles and permissions are stored in `assetflow_identity`.
 
 An organization member receives one or more organization-specific roles.
 
@@ -1048,10 +1048,10 @@ The local environment includes:
 One local PostgreSQL server may host:
 
 ```text
-identity_db
-configuration_db
-financing_db
-document_db
+assetflow_identity
+assetflow_configuration
+assetflow_financing
+assetflow_document
 ```
 
 Each service receives credentials and connection configuration for its own database.
@@ -1156,7 +1156,7 @@ The following constraints are mandatory unless an explicit architecture decision
 | Backend | Four independently owned backend services |
 | Databases | Four independent PostgreSQL databases |
 | Database access | No cross-service direct database access |
-| Contracts | Shared, versioned contracts repository |
+| Contracts | Per-service OpenAPI specifications; no shared contracts repository |
 | Authentication | Identity Service owns authentication |
 | Authorization | Organization-specific roles and permissions |
 | Tenant isolation | Enforced by backend services |
@@ -1194,7 +1194,7 @@ The architecture should permit future extension without implementing these featu
 
 The architecture is considered implemented correctly when:
 
-- All Six repositories have clear ownership.
+- All six repositories have clear ownership.
 - The four backend services can run independently.
 - Each service accesses only its own database.
 - The frontend communicates through the API Gateway.

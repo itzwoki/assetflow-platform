@@ -127,9 +127,7 @@ Example:
 
 The currency must be explicit where relevant.
 
-Initial currency:
-
-`GBP`
+Currency is an organization-level display setting, defaulting to `GBP`. Supported values are `GBP` and `USD`. Currency affects formatting only and must not alter calculation or rounding behaviour.
 
 ### 3.5 Null and optional fields
 
@@ -289,7 +287,7 @@ Base path:
 
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | `/auth/register` | Register a user and initial organization where applicable |
+| POST | `/auth/register` | Register a user account. Organization provisioning is a separate, administratively controlled step. |
 | POST | `/auth/login` | Authenticate using credentials |
 | POST | `/auth/refresh` | Refresh access token |
 | POST | `/auth/logout` | Revoke current refresh session |
@@ -900,10 +898,10 @@ The API architecture is accepted when:
 - No service accesses another service's database directly.
 
 
-This is the API blueprint, not yet the final endpoint-by-endpoint implementation contract. I have deliberately left some details flexible because they depend on decisions we haven't finalized:
-1. Whether registration creates an organization automatically or organization creation is a separate step.
+This is the API blueprint, not yet the final endpoint-by-endpoint implementation contract. Some details remain flexible because they depend on decisions not yet finalized:
+1. ~~Whether registration creates an organization automatically or organization creation is a separate step.~~ **Resolved:** self-registration creates only a user account. Organizations are provisioned through a platform-administration area that creates the initial organization owner. Organization owners may then invite users by email with assigned roles, or create users directly.
 2. Whether quotation creation and proposal creation use dedicated applicant/asset endpoints or nested request bodies.
 3. Whether document generation is initiated by Financing or directly through Documents.
 4. The exact permission names and endpoint-level authorization matrix.
-We should resolve these in the relevant specifications before implementation, rather than inventing details now.
+Remaining items should be resolved in the relevant specifications before implementation, rather than inventing details now.
 **End of Document**

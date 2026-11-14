@@ -62,19 +62,18 @@ Each service owns its domain entities and is the only service allowed to modify 
 
 | Service | Domain ownership |
 |---|---|
-| Identity | Users, organizations, memberships, authentication and sessions |
-| Configuration | Organization settings, roles, permissions, product definitions, rules and document-template assignments |
+| Identity | Users, organizations, memberships, roles, permissions, authentication and sessions |
+| Configuration | Organization settings, product definitions, rules and document-template assignments |
 | Financing | Customers, vehicles, lender records and relationships, calculations, quotations, proposals and submission records |
 | Documents | Uploaded files, document metadata, versions, templates, generated documents and processing jobs |
 | Web | User interface; no authoritative business data ownership |
-| Contracts | Shared API and event contracts; no business data ownership |
 | Platform | Runtime infrastructure and orchestration; no business data ownership |
 
 Cross-service relationships use identifiers and service APIs or events. A service must not directly access another service's database.
 
 # 4. Identity and Organization Domain
 
-This domain is owned by `AssetFlow-identity`.
+This domain is owned by `assetflow-identity`.
 
 ## 4.1 Organization
 
@@ -93,7 +92,7 @@ Important rules:
 - Every dealership business record must belong to exactly one organization.
 - An organization must never access another organization's private records.
 - Organization identifiers are used across services to enforce tenant isolation.
-- An organization may have multiple users and branches.
+- An organization may have multiple users. Branches are out of scope for Release 1.
 
 ## 4.2 User
 
@@ -148,7 +147,7 @@ Release 1 does not require a mandatory internal approval workflow.
 
 # 5. Configuration Domain
 
-This domain is owned by `AssetFlow-configuration`.
+This domain is owned by `assetflow-configuration`.
 
 It defines how an organization and its finance products behave without owning transactional finance records.
 
@@ -168,17 +167,11 @@ Examples:
 
 Organization settings must be scoped to the owning organization.
 
-## 5.2 Branch
+## 5.2 Branch — deferred
 
-Represents a physical or operational dealership branch.
+Branch management is explicitly out of scope for Release 1.
 
-Responsibilities:
-
-- Store branch-specific details.
-- Associate relevant users and business operations with a location.
-- Support future multi-branch reporting and access rules.
-
-A branch belongs to one organization. Branch-level functionality can be introduced incrementally; Release 1 does not need complex branch hierarchies.
+Branches are not modelled, exposed in the user interface, or referenced by any Release 1 workflow. A future release may introduce branch support incrementally, without changing the meaning of existing records.
 
 ## 5.3 Finance Product Definition
 
@@ -264,7 +257,7 @@ The configuration service owns the assignment. The documents service owns the ac
 
 # 6. Financing Domain
 
-This domain is owned by `AssetFlow-financing`.
+This domain is owned by `assetflow-financing`.
 
 It contains the dealership's operational finance records.
 
@@ -555,7 +548,7 @@ AssetFlow does not automatically know whether the lender has received, reviewed,
 
 # 7. Documents Domain
 
-This domain is owned by `AssetFlow-document`.
+This domain is owned by `assetflow-document`.
 
 It manages uploaded and generated files, while financing records retain references to relevant documents.
 
@@ -673,7 +666,7 @@ The following relationships describe the primary business model.
 - Organization has many memberships.
 - User has many memberships.
 - Membership connects one user to one organization.
-- Organization has its own settings and branches.
+- Organization has its own settings.
 
 ## 8.2 Organization and Financing
 
